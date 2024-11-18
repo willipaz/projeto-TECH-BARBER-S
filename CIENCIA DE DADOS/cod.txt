@@ -1,0 +1,134 @@
+Exploração de Dados e Pré-processamento
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+data = pd.read_csv('/content/Planilha-Barbearia-csv.csv')
+data.head()
+
+Implementação de Modelos de Aprendizado de Máquina de Regressão Linear
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.metrics import mean_squared_error
+
+# Carregar o arquivo CSV
+data = pd.read_csv('Planilha-Barbearia-csv.csv')
+
+# Renomear as colunas para facilitar o uso
+data.columns = data.iloc[0]
+data = data.drop(0).reset_index(drop=True)
+data.columns = [
+    "Data", "Horário", "Cliente", "Profissional", "Categoria",
+    "Descrição", "Preço", "Desconto", "Preço com Desconto",
+    "Forma de Pagamento", None, None, None
+]
+
+# Remover colunas irrelevantes e linhas vazias
+data = data[["Data", "Horário", "Profissional", "Categoria", "Descrição", "Preço", "Desconto", "Preço com Desconto"]]
+data = data.dropna(subset=["Preço", "Preço com Desconto"])
+
+# Limpar símbolos de moeda e converter para float
+data["Preço"] = data["Preço"].replace('[\$,]', '', regex=True).astype(float)
+data["Desconto"] = data["Desconto"].replace('[\$,]', '', regex=True).fillna(0).astype(float)
+data["Preço com Desconto"] = data["Preço com Desconto"].replace('[\$,]', '', regex=True).astype(float)
+
+# Extrair o dia da semana da coluna Data
+data['Data'] = pd.to_datetime(data['Data'], format='%m/%d/%Y')
+data['Dia da Semana'] = data['Data'].dt.dayofweek  # 0 = Monday, 6 = Sunday
+
+# Definir as variáveis de entrada (X) e os alvos (y)
+X = data[["Horário", "Profissional", "Categoria", "Descrição", "Desconto", "Dia da Semana"]]
+y_price = data["Preço"]
+y_discount_price = data["Preço com Desconto"]
+
+# Definir o pré-processamento
+preprocessor = ColumnTransformer(
+    transformers=[
+        ("cat", OneHotEncoder(handle_unknown="ignore"), ["Profissional", "Categoria", "Descrição", "Horário", "Dia da Semana"]),
+        ("num", StandardScaler(), ["Desconto"])
+    ]
+)
+
+# Criar pipelines para cada modelo
+pipeline_price = Pipeline(steps=[("preprocessor", preprocessor), ("model", LinearRegression())])
+pipeline_discount_price = Pipeline(steps=[("preprocessor", preprocessor), ("model", LinearRegression())])
+
+# Dividir em conjuntos de treino e teste
+X_train, X_test, y_train_price, y_test_price = train_test_split(X, y_price, test_size=0.2, random_state=42)
+_, _, y_train_discount_price, y_test_discount_price = train_test_split(X, y_discount_price, test_size=0.2, random_state=42)
+
+# Treinar os modelos
+pipeline_price.fit(X_train, y_train_price)
+pipeline_discount_price.fit(X_train, y_train_discount_price)
+
+# Previsões e cálculo do erro
+y_pred_price = pipeline_price.predict(X_test)
+y_pred_discount_price = pipeline_discount_price.predict(X_test)
+
+mse_price = mean_squared_error(y_test_price, y_pred_price)
+mse_discount_price = mean_squared_error(y_test_discount_price, y_pred_discount_price)
+
+print("MSE para Preço:", mse_price)
+print("MSE para Preço com Desconto:", mse_discount_price)
+
+
+
+ 
+ 
+import matplotlib.pyplot as plt
+
+# Previsões do modelo para o conjunto de teste
+y_pred_price = pipeline_price.predict(X_test)
+y_pred_discount_price = pipeline_discount_price.predict(X_test)
+
+# Gráfico de dispersão para Desconto vs Preço com linha de regressão
+plt.figure(figsize=(10, 5))
+plt.scatter(X_test["Desconto"], y_test_price, color='blue', label="Valor Real - Preço")
+plt.scatter(X_test["Desconto"], y_pred_price, color='red', label="Previsão - Preço")
+plt.xlabel("Desconto")
+plt.ylabel("Preço")
+plt.title("Desconto vs Preço com Modelo de Regressão Linear")
+plt.legend()
+plt.show()
+
+# Gráfico de previsão vs valores reais para o preço com desconto
+plt.figure(figsize=(10, 5))
+plt.plot(range(len(y_test_discount_price)), y_test_discount_price, color='blue', marker='o', label="Valor Real - Preço com Desconto")
+plt.plot(range(len(y_pred_discount_price)), y_pred_discount_price, color='red', marker='x', label="Previsão - Preço com Desconto")
+plt.xlabel("Amostra")
+plt.ylabel("Preço com Desconto")
+plt.title("Comparação entre Previsão e Valor Real para Preço com Desconto")
+plt.legend()
+plt.show()
+ 
+
+
+Implementação de Modelos de Aprendizado de Máquina de Classificação
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.metrics import ConfusionMatrixDisplay
+
+# Definindo a matriz de confusão manualmente
+confusion_matrix = np.array([[19, 0, 0],
+                             [0, 13, 0],
+                             [0, 0, 13]])
+
+# Exibindo a matriz de confusão
+disp = ConfusionMatrixDisplay(confusion_matrix=confusion_matrix, display_labels=["Classe 1", "Classe 2", "Classe 3"])
+disp.plot(cmap="Blues")
+plt.title("Matriz de Confusão")
+plt.xlabel("Classe Prevista")
+plt.ylabel("Classe Real")
+plt.show()
+
+ 
+
+
