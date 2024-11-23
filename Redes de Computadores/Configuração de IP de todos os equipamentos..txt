@@ -1,0 +1,13 @@
+ Configuração de IP de todos os equipamentos. 
+A rede inicial será 192.168.0.0/24, o que fornece 256 endereços (de 192.168.0.1 até 192.168.0.254). 
+Definir os equipamentos que serão utilizados em cada departamento
+ Classe A: Classe A será usado para equipamentos internos da empresa (Computadores, Servidor e Rede WI-FI). 
+Classe C: será usada para o WI-FI do cliente. 
+Definir o padrão de rede de cada departamento. 
+Aqui está a divisão para cada departamento:
+ Gerência 1 CPU, 1 Impressora, 1 Roteador 192.168.0.1 - 192.168.0.62
+ T.I / ADS 4 Computadores, 3 Impressoras, 1 Roteador, 3 Celulares 192.168.0.64 - 192.168.0.127 
+Financeiro 1 Computador, 1 Impressora, 1 Roteador 192.168.0.128 - 192.168.0.191 
+Recursos Humanos 2 Computadores, 1 Impressora, 1 Scanner, 1 TV, 1 Projetor 192.168.0.192 - 192.168.0.255
+ Sala dos Funcionários 1 Roteador Wi-Fi, 1 TV 192.168.1.1 - 192.168.1.2.
+

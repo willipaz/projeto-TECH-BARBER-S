@@ -1,0 +1,16 @@
+Equipamentos que serão utilizados
+
+Gerencia: 1 computador,1 roteador,1 impressora, 
+T.I/ADS: 4 computadores,3 impressoras,1 roteador,3 celulares para testes do APP 
+Financeiro: 1 computadores,1 impressora,1 roteador 
+Recursos Humanos: 2 computadores,1 roteador,1 impressora,1 scanner para documentos, Televisão e projetor para reuniões
+ Sala dos Funcionários: 1 rede wi-fi, Televisão 
+CONFIGURAÇÃO DE IP DE TODOS OS EQUIPAMENTOS 
+
+
+EQUIPAMENTOS QUE SERÃO UTILIZADOS EM CADA DEPARTAMENTO:
+
+ SALA DET.I: 04 Rack´s 01 Switch gerenciável de 48 portas 01 Servidor de dados 01 Nobreak para rede de Telecom e servidor 01 CPUpara monitoramento de rede 
+GERENCIA: 01 CPU 01 IMPRESSORA T.I/ADS: 04 COMPUTADORES 03 IMPRESSORAS 
+FINANCEIRO: 01 COMPUTADOR 01 IMPRESSORA 
+RECURSOSHUMANOS: 02 COMPUTADORES 01 IMPRESSORA 01 SCANNER.
