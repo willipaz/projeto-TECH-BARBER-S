@@ -1,4 +1,4 @@
-# projeto-TECH-BARBER-S
+# Projeto-TECH-BARBER-S
 Trabalho universitario
 # Integrantes do grupo
 Gabriel Azevedo Sampaio - RA 2224103461
